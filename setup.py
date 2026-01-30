@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="auth0-ciam-client",
-    version="0.1.0",
+    version="0.2.0",
     author="Brian Reavey",
     author_email="brian@reavey05.com",
     description="Auth0 Customer Identity and Access Management Client",
