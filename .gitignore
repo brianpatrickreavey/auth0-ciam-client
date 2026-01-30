@@ -1,0 +1,15 @@
+# Test artifacts
+.coverage
+htmlcov/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Sensitive files
+test_credentials.json
+
+# OS files
+.DS_Store
+Thumbs.db
