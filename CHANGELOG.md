@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Switched from PyJWT to python-jose for improved portability across Python environments
 - Removed dependency on cryptography library to avoid PyO3 compatibility issues
+- Updated setup.py install_requires to match requirements.txt
 
 ## [0.1.0] - 2026-01-30
 
