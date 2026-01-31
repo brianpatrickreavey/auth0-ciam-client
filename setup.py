@@ -34,7 +34,6 @@ setup(
     install_requires=[
         "requests>=2.25.0",
         "beautifulsoup4>=4.9.0",
-        "python-jose>=3.0.0",
     ],
     extras_require={
         "dev": [
