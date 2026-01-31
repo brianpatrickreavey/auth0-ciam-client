@@ -1,2 +1,0 @@
-auth0_ciam_client
-tests

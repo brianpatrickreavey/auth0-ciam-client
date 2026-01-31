@@ -7,6 +7,11 @@ __pycache__/
 *.pyo
 *.pyd
 
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
 # Sensitive files
 test_credentials.json
 
