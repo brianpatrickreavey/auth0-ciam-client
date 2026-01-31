@@ -268,7 +268,10 @@ class AuthenticationCore:
         base_url = self.config.base_url.rstrip("/")
         web_url = base_url
         # For now, assume auth subdomain - this could be configurable
-        auth_url = base_url.replace("://www.", "://auth.").replace("://", "://auth.")
+        if "://www." in base_url:
+            auth_url = base_url.replace("://www.", "://auth.")
+        else:
+            auth_url = base_url.replace("://", "://auth.", 1)
 
         login_url = f"{web_url}/auth/login"
         self.log.info(f"Login URL: {login_url}")
