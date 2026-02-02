@@ -16,13 +16,17 @@ help:
 
 # Testing
 test:
-	source ../.venv/bin/activate && pytest tests/ -v --cov=auth0_ciam_client --cov-report=term-missing
+	uv run pytest tests/ -v --cov=auth0_ciam_client --cov-report=term-missing
+
+# Install dependencies
+install:
+	uv sync --group dev
 
 # Linting and formatting
 lint:
-	source ../.venv/bin/activate && black --check . --line-length=120
-	source ../.venv/bin/activate && flake8 . --max-line-length=120
-	source ../.venv/bin/activate && pyright .
+	uv run black --check . --line-length=120
+	uv run flake8 . --max-line-length=120
+	uv run pyright .
 
 format:
 	source ../.venv/bin/activate && black . --line-length=120
