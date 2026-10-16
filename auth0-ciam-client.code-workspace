@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "auth0-ciam-client"
+		},
+		{
+			"path": "kodi.script.module.auth0-ciam-client"
+		}
+	],
+	"settings": {}
+}
