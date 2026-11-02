@@ -423,17 +423,16 @@ class AuthenticationCore:
             self.log.error(error_msg)
             raise InvalidCredentialsError(error_msg)
 
-        # Step 7: Extract JWT token from cookies
+        # Step 7: Extract JWT token from cookies, preferring earlier configured names.
         jwt_token = ""
-        for cookie in self.session.cookies:
-            # Check for configured JWT cookie names in priority order
-            for cookie_name in self.config.jwt_cookie_names:
-                if cookie.name == cookie_name:
-                    jwt_token = str(cookie.value)
-                    self.log.debug(f"Found JWT token in cookie '{cookie.name}': {jwt_token[:20]}...")
-                    break
-            if jwt_token:
-                break
+        cookies_by_name = {cookie.name: cookie for cookie in self.session.cookies}
+        for cookie_name in self.config.jwt_cookie_names:
+            cookie = cookies_by_name.get(cookie_name)
+            if cookie is None:
+                continue
+            jwt_token = str(cookie.value)
+            self.log.debug(f"Found JWT token in cookie '{cookie.name}': {jwt_token[:20]}...")
+            break
 
         if jwt_token:
             self.log.info("Successfully extracted JWT token from cookies")

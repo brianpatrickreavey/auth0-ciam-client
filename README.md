@@ -132,7 +132,7 @@ Configuration dataclass for Auth0 settings.
 #### Parameters
 
 - `base_url: str` - Base URL for your Auth0 application (required)
-- `jwt_cookie_names: List[str]` - Cookie names to check for JWT tokens (default: ["angel_jwt_v2", "angel_jwt"])
+- `jwt_cookie_names: List[str]` - Cookie names to check for JWT tokens, in preference order (default: ["angel_jwt_v3", "angel_jwt_v2", "angel_jwt"])
 - `request_timeout: int` - HTTP request timeout in seconds (default: 30)
 - `expiry_buffer_hours: int` - Hours before expiration to attempt refresh (default: 1)
 - `user_agent: Optional[str]` - Custom User-Agent string (default: None)

@@ -13,7 +13,9 @@ class Auth0Config:
     """
 
     base_url: str
-    jwt_cookie_names: List[str] = field(default_factory=lambda: ["angel_jwt_v2", "angel_jwt"])
+    jwt_cookie_names: List[str] = field(
+        default_factory=lambda: ["angel_jwt_v3", "angel_jwt_v2", "angel_jwt"]
+    )
     request_timeout: int = 30
     expiry_buffer_hours: int = 1
     user_agent: Optional[str] = None
@@ -38,7 +40,7 @@ def create_angel_studios_config() -> Auth0Config:
     """
     return Auth0Config(
         base_url="https://www.angel.com",
-        jwt_cookie_names=["angel_jwt_v2", "angel_jwt"],
+        jwt_cookie_names=["angel_jwt_v3", "angel_jwt_v2", "angel_jwt"],
         request_timeout=30,
         expiry_buffer_hours=1,
     )
