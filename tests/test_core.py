@@ -9,7 +9,7 @@ import pytest
 import requests
 
 from auth0_ciam_client.core import AuthenticationCore, AuthResult
-from auth0_ciam_client.config import Auth0Config
+from auth0_ciam_client.config import Auth0Config, create_angel_studios_config
 from auth0_ciam_client.session_store import InMemorySessionStore
 from auth0_ciam_client.exceptions import AuthenticationRequiredError, NetworkError, AuthenticationError, InvalidCredentialsError
 
@@ -465,3 +465,55 @@ class TestAuthenticationCore:
 
             assert result.success is False
             assert "Authentication error: Generic error" in result.error_message
+
+
+class _Response:
+    def __init__(self, status_code, content=b"", headers=None):
+        self.status_code = status_code
+        self.content = content
+        self.headers = headers or {}
+
+
+_LOGIN_HTML = b'<input id="state" name="state" value="state-1"><input name="_csrf_token" value="csrf-1">'
+
+
+def _run_login(core, cookies):
+    """Walk the login calls and set cookies on the redirect response."""
+
+    def fake_get(url, **kwargs):
+        if kwargs.get("allow_redirects"):
+            for name, value in cookies:
+                core.session.cookies.set(name, value)
+        return _Response(200, _LOGIN_HTML)
+
+    def fake_post(url, **kwargs):
+        return _Response(302, b"", {"Location": "https://www.angel.com/api/auth/callback"})
+
+    core.session.get = fake_get
+    core.session.post = fake_post
+    return core._perform_authentication("user@example.com", "secret")
+
+
+class TestAngelJwtCookieNames:
+    """The Angel config must read the current JWT cookie name."""
+
+    def test_angel_jwt_v3_is_preferred(self, mock_session_store, mock_logger):
+        core = AuthenticationCore(
+            session_store=mock_session_store,
+            config=create_angel_studios_config(),
+            logger=mock_logger,
+        )
+        token = _run_login(
+            core,
+            [("angel_jwt_v2", "old-token"), ("angel_jwt_v3", "new-token")],
+        )
+        assert token == "new-token"
+
+    def test_angel_jwt_v2_still_works(self, mock_session_store, mock_logger):
+        core = AuthenticationCore(
+            session_store=mock_session_store,
+            config=create_angel_studios_config(),
+            logger=mock_logger,
+        )
+        token = _run_login(core, [("angel_jwt_v2", "old-token")])
+        assert token == "old-token"

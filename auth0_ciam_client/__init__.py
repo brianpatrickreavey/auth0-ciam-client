@@ -1,6 +1,6 @@
 """Auth0 CIAM Client - Customer Identity and Access Management for Auth0"""
 
-__version__ = "0.1.0"
+__version__ = "0.2.2"
 __author__ = "Brian Reavey"
 __email__ = "brian@reavey05.com"
 __license__ = "GPL-3.0-only"
