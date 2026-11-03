@@ -33,7 +33,7 @@ format:
 
 # Package management
 build:
-	source ../.venv/bin/activate && python setup.py sdist bdist_wheel
+	uv build
 
 install:
 	source ../.venv/bin/activate && pip install -e .
